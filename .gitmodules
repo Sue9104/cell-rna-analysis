@@ -1,0 +1,9 @@
+[submodule "tappAS"]
+	path = tappAS
+	url = https://github.com/ConesaLab/tappAS.git
+[submodule "SQANTI3"]
+	path = SQANTI3
+	url = https://github.com/ConesaLab/SQANTI3.git
+[submodule "cDNA_Cupcake"]
+	path = cDNA_Cupcake
+	url = https://github.com/Magdoll/cDNA_Cupcake.git
