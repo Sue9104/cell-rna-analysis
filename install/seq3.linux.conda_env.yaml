@@ -1,5 +1,7 @@
 name: seq3
 channels:
+  - https://repo.anaconda.com/pkgs/r
+  - https://repo.anaconda.com/pkgs/main
   - bioconda
   - conda-forge
   - defaults
@@ -379,13 +381,14 @@ dependencies:
   - zlib=1.2.13
   - zstd=1.5.2
   - pip:
-    - argh==0.26.2
-    - dill==0.3.6
-    - edlib==1.3.9
-    - gffutils==0.11.1
-    - intervaltree==3.1.0
-    - parasail==1.3.3
-    - pyfaidx==0.7.1
-    - simplejson==3.18.0
-    - sortedcontainers==2.4.0
-    - ultra-bioinformatics==0.0.4.2
+      - argh==0.26.2
+      - cupcake==29.0.0
+      - dill==0.3.6
+      - edlib==1.3.9
+      - gffutils==0.11.1
+      - intervaltree==3.1.0
+      - parasail==1.3.3
+      - pyfaidx==0.7.1
+      - simplejson==3.18.0
+      - sortedcontainers==2.4.0
+      - ultra-bioinformatics==0.0.4.2
