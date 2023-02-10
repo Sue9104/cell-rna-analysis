@@ -1,3 +1,4 @@
+basedir=$(dirname "$0")
 input=$1
 outdir=$2
 prefix=$3
@@ -8,7 +9,7 @@ cage=/public/home/msu/pipelines/exon-usages-in-3rd-seq/SQANTI3/data/ref_TSS_anno
 polya=/public/home/msu/pipelines/exon-usages-in-3rd-seq/SQANTI3/data/polyA_motifs/mouse_and_human.polyA_motif.txt
 primers=/public/home/msu/projects/seq3/examples/primers.fasta
 barcodes=/public/home/msu/projects/seq3/examples/3M-february-2018-REVERSE-COMPLEMENTED.txt.gz
-
+python3=/public/home/msu/miniconda3/bin/python3
 # create outdir if not exists
 [ ! -d "${outdir}" ] && mkdir ${outdir}
 
@@ -27,8 +28,11 @@ echo isoseq3 refine ${outdir}/${prefix}.flt.bam ${primers} ${outdir}/${prefix}.f
 # Correct single cell barcodes based on an include list
 echo isoseq3 correct -B ${barcodes} ${outdir}/${prefix}.fltnc.bam ${outdir}/${prefix}.corrected.bam
 [ ! -f "${outdir}/${prefix}.corrected.bam" ] && isoseq3 correct -B ${barcodes} ${outdir}/${prefix}.fltnc.bam ${outdir}/${prefix}.corrected.bam
-## Barcode Statistics Documentation
-###isoseq3 bcstats --json ${outdir}/${prefix}.sample.bcstats.json -o ${outdir}/${prefix}.sample.bcstats.tsv ${outdir}/${prefix}.corrected.bam
+# Barcode Statistics Documentation
+echo isoseq3 bcstats --json ${outdir}/${prefix}.bcstats.json -o ${outdir}/${prefix}.bcstats.tsv ${outdir}/${prefix}.corrected.bam
+[ ! -f "${outdir}/${prefix}.bcstats.tsv" ] && isoseq3 bcstats --json ${outdir}/${prefix}.bcstats.json -o ${outdir}/${prefix}.bcstats.tsv ${outdir}/${prefix}.corrected.bam
+echo ${python3} ${basedir}/plot_knees.py -t ${outdir}/${prefix}.bcstats.tsv -o ${outdir}/${prefix}.cellbackground --estimate_percentile 95
+[ ! -f "${outdir}/${prefix}.cellbackground.knee.png" ] && ${python3} ${basedir}/plot_knees.py -t ${outdir}/${prefix}.bcstats.tsv -o ${outdir}/${prefix}.cellbackground --estimate_percentile 95
 
 # Deduplicate reads based on UMIs
 echo samtools sort -@ 40 -t CB ${outdir}/${prefix}.corrected.bam -o ${outdir}/${prefix}.corrected.sorted.bam
